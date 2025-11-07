@@ -11,7 +11,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPO: svc-notifications
   ECS_CLUSTER: elearning-cluster 
-  ECS_SERVICE: svc-notifications-service
+  ECS_SERVICE: svc-notifications-task
   ACCOUNT_ID: 411189321627
 
 jobs:
