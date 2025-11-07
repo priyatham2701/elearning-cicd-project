@@ -11,7 +11,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPO: svc-enrollment
   ECS_CLUSTER: elearning-cluster
-  ECS_SERVICE: svc-enrollment
+  ECS_SERVICE: svc-enrollment-task-service-16sth6mu
   ACCOUNT_ID: 411189321627
 
 jobs:
