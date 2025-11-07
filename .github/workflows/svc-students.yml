@@ -8,10 +8,10 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: us-east-2
+  AWS_REGION: us-east-1
   ECR_REPO: svc-students
   ECS_CLUSTER: elearn-cluster
-  ECS_SERVICE: svc-students-service
+  ECS_SERVICE: svc-students-task
   ACCOUNT_ID: 411189321627
 
 jobs:
