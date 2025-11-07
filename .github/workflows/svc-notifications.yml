@@ -1,0 +1,55 @@
+name: CI/CD - svc-notifications
+
+on:
+  push:
+    paths:
+      - 'svc-notifications/**'
+      - '.github/workflows/svc-notifications.yml'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-2
+  ECR_REPO: svc-notifications
+  ECS_CLUSTER: elearn-cluster
+  ECS_SERVICE: svc-notifications-service
+  ACCOUNT_ID: 411189321627
+
+jobs:
+  build-test-push-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps & run tests
+        working-directory: svc-notifications
+        run: |
+          pip install -r requirements.txt
+          pytest -q
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Build & push image to ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          docker build -t $ECR_REPO:latest ./svc-notifications
+          docker tag $ECR_REPO:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
