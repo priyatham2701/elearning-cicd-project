@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPO: svc-courses
-  ECS_CLUSTER: elearning-clusture
+  ECS_CLUSTER: elearning-cluster
   ECS_SERVICE: svc-courses-service
   ACCOUNT_ID: 411189321627
 
