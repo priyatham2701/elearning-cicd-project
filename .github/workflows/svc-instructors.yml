@@ -11,7 +11,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPO: svc-instructors
   ECS_CLUSTER: elearning-cluster
-  ECS_SERVICE: svc-instructors-service
+  ECS_SERVICE: svc-instructors-task-service
   ACCOUNT_ID: 411189321627
 
 jobs:
