@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: us-east-1 
   ECR_REPO: svc-courses
   ECS_CLUSTER: elearning-cluster
   ECS_SERVICE: svc-courses-service
